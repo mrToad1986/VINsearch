@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VINcheck</title>
+</head>
+<body>
+    <h2>Поиск данных об автомобиле по VIN</h2>
+    <input type="text" id="vinInput" placeholder="Введите VIN">
+    <button onclick="fetchCarData()">Поиск</button>
+    <hr>
+    <h3>Результат поиска:</h3>
+    <pre id="carData"></pre>
+    <script>
+        function fetchCarData() {
+            const vin = document.getElementById('vinInput').value;
+            fetch(`http://127.0.0.1:5001/api/v1/car/${vin}`, {mode: 'no-cors'})
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('carData').textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById('carData').textContent = 'Ошибка поиска';
+                });
+        }
+    </script>
+</body>
+</html>
